@@ -1,9 +1,6 @@
 import pandas as pd
 import numpy as np
 
-
-"""
-
 train = pd.read_csv('train.csv')
 feature_set = pd.read_csv('features.csv')
 test = pd.read_csv('test.csv')
@@ -66,23 +63,6 @@ features_test = features_test.fillna(0)
 test_values = features_test[['dt_others_median', 'dt_self_median', 'ips_per_bidder' , 'dt_change_ip_median', 'bids_per_auction_per_ip_entropy_mean', 'n_bids', 'bids_per_auction_mean', 'ip_entropy', 'vasstdc27m7nks3', 'n_bids_url', 'payment_account_0875307e1731af94b3b64725ad0deb7d', 'countries_per_bidder_per_auction_max', 'on_ip_that_has_a_bot_mean', 'f_urls', 'url_entropy']].values
 #print (test_values)
 
-"""
-
-
-
-class decStump:
-    def __init__(self):
-        self.gtlabel = None
-        self.ltlabel = None
-        self.splitThreshold = None
-        self.splitFeature = None
-
-    def classify(self, point):
-        if point[self.splitFeature] > self.splitThreshold :
-            return self.gtlabel
-        else:
-            return self.ltlabel
-"""
 
 def classify(dataM, dim, thresh, lt_gt):
     ret = np.ones((np.shape(dataM)[0],1))
@@ -163,7 +143,7 @@ def adaClassify(datToClass, classifiers):       #classifies test data with weak 
         aggregate_class_estimate += classifiers[i]['alpha']*classEst
     return np.sign(aggregate_class_estimate)
 
-
+"""
 def find_best_predictor(test_values, training_data, labels):
 	iterations = 1
 	maxCount = 0
@@ -178,6 +158,7 @@ def find_best_predictor(test_values, training_data, labels):
 			iterations = i
 			maxCount = count
 	return iterations
+"""
 
 prediction = adaClassify(test_values, classifiers)
 #prediction = adaClassify(feattest, classifiers)
@@ -196,5 +177,3 @@ output = pd.DataFrame()
 output['bidder_id'] = test['bidder_id']
 output['prediction'] = prediction
 output.to_csv('prediction_leggo.csv', sep=',', index = False, header=True, columns=['bidder_id', 'prediction'])
-
-"""
